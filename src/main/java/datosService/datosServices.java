@@ -9,6 +9,10 @@ import datosDTO.datosDTO;
 import datosRepository.datosRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.sql.Timestamp;
+import org.springframework.transaction.annotation.Transactional;
+import datosEntity.datosEntity;
+
 //Lombok detecta todos los campos marcados como final
 @RequiredArgsConstructor
 @Service 
@@ -25,6 +29,19 @@ public class datosServices {
         return dataRepo.findallOrderedById().stream().
         map(datosDTO::fromentity). //Llamada directa al método estático del DTO ya no se usa Mapper
         collect(Collectors.toList()) ;
+    }
+
+    @Transactional
+    public datosDTO guardar(Integer co2, Float temperatura, Double humedad) {
+        datosEntity medicion = new datosEntity();
+
+        medicion.setCo2(co2);
+        medicion.setTemperatura(temperatura);
+        medicion.setHumedad(humedad);
+        medicion.setFechahora(new Timestamp(System.currentTimeMillis()));
+
+        datosEntity guardada = dataRepo.save(medicion);
+        return datosDTO.fromentity(guardada);
     }
 
 
