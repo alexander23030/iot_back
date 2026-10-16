@@ -8,6 +8,6 @@ import datosEntity.datosEntity;
 
 public interface datosRepository extends JpaRepository<datosEntity, Integer>{
 
-    @Query("SELECT d FROM datosEntity d ORDER BY d.id_medicion ASC")
+    @Query("SELECT d FROM datosEntity d ORDER BY d.id_medicion DESC")
     List<datosEntity> findallOrderedById();
 }
