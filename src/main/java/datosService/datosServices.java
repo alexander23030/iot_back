@@ -10,6 +10,8 @@ import datosRepository.datosRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import org.springframework.transaction.annotation.Transactional;
 import datosEntity.datosEntity;
 
@@ -31,6 +33,14 @@ public class datosServices {
         collect(Collectors.toList()) ;
     }
 
+    //Filtrado por tiempos determinadps
+    public List<datosDTO> ObtenerFiltrado(int horas) {
+        Timestamp intervalo = Timestamp.valueOf(LocalDateTime.now().minusHours(horas));
+        return dataRepo.findFiltradoDatos(intervalo).stream()
+        //Conversion de entidad a DTO
+                .map(datosDTO::fromentity)
+                .collect(Collectors.toList());
+    }
     @Transactional
     public datosDTO guardar(Integer co2, Float temperatura, Double humedad) {
         datosEntity medicion = new datosEntity();
@@ -40,6 +50,7 @@ public class datosServices {
         medicion.setHumedad(humedad);
         medicion.setFechahora(new Timestamp(System.currentTimeMillis()));
 
+        //convertir una entidad en un DTO
         datosEntity guardada = dataRepo.save(medicion);
         return datosDTO.fromentity(guardada);
     }
