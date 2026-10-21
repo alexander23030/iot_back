@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 @Component
 @RequiredArgsConstructor
@@ -30,7 +31,8 @@ private final JsonMapper jsonMapper;
         try {
             client = new MqttClient(
                 broker,
-                MqttClient.generateClientId()
+                MqttClient.generateClientId(),
+                new MemoryPersistence()
             );
 
             MqttConnectOptions options = new MqttConnectOptions();
