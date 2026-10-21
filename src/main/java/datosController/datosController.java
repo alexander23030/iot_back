@@ -36,6 +36,12 @@ public class datosController {
         if (horas == null) return service.getData(); 
         return service.ObtenerFiltrado(horas);
 }
-    
 
+        @GetMapping("/actual")
+        public datosDTO obtenerUltimaLectura() {
+            return service.getData()
+                    .stream()
+                    .max(java.util.Comparator.comparing(datosDTO::getFechahora))
+                    .orElse(null);
+        }
 }
