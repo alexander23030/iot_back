@@ -8,11 +8,16 @@ import org.springframework.data.repository.query.Param;
 import datosEntity.datosEntity;
 
 public interface datosRepository extends JpaRepository<datosEntity, Integer>{
-   
+    
+    //Se puede generar una consulta a partir del nombre
     //Todos los datos en general
-    @Query("SELECT d FROM datosEntity d ORDER BY d.id_medicion DESC")
-    List<datosEntity> findallOrderedById();
-
+   // List<datosEntity> findAllByOrderByFechahoraAsc();
+   
     //Filtrado
     @Query("SELECT d FROM datosEntity d WHERE d.fechahora > :intervalo ORDER BY d.fechahora ASC")
-    List<datosEntity> findFiltradoDatos(@Param("intervalo") Timestamp intervalo);}
+    List<datosEntity> findFiltradoDatos(@Param("intervalo") Timestamp intervalo);
+    
+    //Ultimo id registrado
+    List<datosEntity> findTopByOrderByFechahoraDesc();
+
+}

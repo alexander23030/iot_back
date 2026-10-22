@@ -1,6 +1,7 @@
 package datosService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -24,11 +25,17 @@ public class datosServices {
     //la variable debe asignarse obligatoriamente al crearse la clase
     private final datosRepository dataRepo;
 
-    
+    // segundos de cada intervalo de promedio según el filtro (horas)
+    private static final Map<Integer, Integer> SEGUNDOS_POR_RANGO = Map.of(
+        6, 300,      // 5 min
+        24, 1200,    // 20 min
+        72, 3600,    // 1 h
+        120, 7200    // 2 h
+    );
     // Consultar datos
     //Para hacer que la consulta se ordene por ID se llama a la funcion .findAllOrdenado del repositorio
     public List<datosDTO> getData(){
-        return dataRepo.findallOrderedById().stream().
+        return dataRepo.findTopByOrderByFechahoraDesc().stream().
         map(datosDTO::fromentity). //Llamada directa al método estático del DTO ya no se usa Mapper
         collect(Collectors.toList()) ;
     }
@@ -54,6 +61,9 @@ public class datosServices {
         datosEntity guardada = dataRepo.save(medicion);
         return datosDTO.fromentity(guardada);
     }
+
+
+
 
 
 }
