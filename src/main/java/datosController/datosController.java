@@ -20,13 +20,13 @@ public class datosController {
 
     private final datosServices service;    
 
+/* 
     @GetMapping("/all")
     public List <datosDTO>getService() {
         return service.getData();
     }
-    
+*/ 
     @GetMapping("/")
-
     public List<datosDTO> listar
     //Se usa una condicion para filtrar la cantidad de horas
     //Si no se envia un cantidad es null y devuelve todo
