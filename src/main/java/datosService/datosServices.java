@@ -40,7 +40,7 @@ public class datosServices {
         collect(Collectors.toList()) ;
     }
 
-    //Filtrado por tiempos determinadps
+    //Filtrado por horas determinadas
     public List<datosDTO> ObtenerFiltrado(int horas) {
         Timestamp intervalo = Timestamp.valueOf(LocalDateTime.now().minusHours(horas));
         return dataRepo.findFiltradoDatos(intervalo).stream()
@@ -48,6 +48,15 @@ public class datosServices {
                 .map(datosDTO::fromentity)
                 .collect(Collectors.toList());
     }
+
+    //get por rangos de tiempos
+    public List<datosDTO> ObtenerRango(LocalDateTime desde, LocalDateTime hasta){
+    return dataRepo.findByFechahoraBetweenOrderByFechahoraAsc(
+        Timestamp.valueOf(desde), 
+        Timestamp.valueOf(hasta)).stream().map(datosDTO::fromentity).collect(Collectors.toList());
+    }
+
+
     @Transactional
     public datosDTO guardar(Integer co2, Float temperatura, Double humedad) {
         datosEntity medicion = new datosEntity();

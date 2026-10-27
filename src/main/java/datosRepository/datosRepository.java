@@ -20,4 +20,6 @@ public interface datosRepository extends JpaRepository<datosEntity, Integer>{
     //Ultimo id registrado
     List<datosEntity> findTopByOrderByFechahoraDesc();
 
+    //Busquda por rangos
+    List<datosEntity> findByFechahoraBetweenOrderByFechahoraAsc(Timestamp desde, Timestamp hasta);
 }
