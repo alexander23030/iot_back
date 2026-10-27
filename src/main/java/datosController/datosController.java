@@ -1,7 +1,9 @@
 package datosController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +37,7 @@ public class datosController {
         //se llama al metodo ObtenerFiltrado con la cantidad de horas solicitadas
         if (horas == null) return service.getData(); 
         return service.ObtenerFiltrado(horas);
-}
+        }
 
         @GetMapping("/actual")
         public datosDTO obtenerUltimaLectura() {
@@ -44,4 +46,13 @@ public class datosController {
                     .max(java.util.Comparator.comparing(datosDTO::getFechahora))
                     .orElse(null);
         }
+
+        @GetMapping("/reportes")
+        public List<datosDTO> rangos(        
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime desde,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime hasta) 
+        {
+        return service.ObtenerRango(desde, hasta);
+        }
+        
 }
