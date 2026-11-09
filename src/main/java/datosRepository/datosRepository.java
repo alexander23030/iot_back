@@ -22,4 +22,14 @@ public interface datosRepository extends JpaRepository<datosEntity, Integer>{
 
     //Busquda por rangos
     List<datosEntity> findByFechahoraBetweenOrderByFechahoraAsc(Timestamp desde, Timestamp hasta);
+
+    @Query("""
+    SELECT COUNT(d) AS total,
+           AVG(d.co2) AS co2Promedio, MAX(d.co2) AS co2Max, MIN(d.co2) AS co2Min,
+           AVG(d.temperatura) AS tempPromedio, MAX(d.temperatura) AS tempMax, MIN(d.temperatura) AS tempMin,
+           AVG(d.humedad) AS humPromedio, MAX(d.humedad) AS humMax, MIN(d.humedad) AS humMin
+    FROM datosEntity d
+    WHERE d.fechahora BETWEEN :desde AND :hasta
+    """)
+resumenInterface resumen(@Param("desde") Timestamp desde, @Param("hasta") Timestamp hasta);
 }
