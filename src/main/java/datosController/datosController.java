@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import datosDTO.datosDTO;
+import datosDTO.datosDTO.resumenDTO;
 import datosService.datosServices;
 import lombok.RequiredArgsConstructor;
 
@@ -55,4 +56,10 @@ public class datosController {
         return service.ObtenerRango(desde, hasta);
         }
         
+        @GetMapping("/resumen")
+        public resumenDTO resumen(
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime desde,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime hasta) {
+        return service.obtenerResumen(desde, hasta);
+    }
 }

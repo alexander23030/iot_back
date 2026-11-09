@@ -23,20 +23,20 @@ public class datosDTO {
     public static datosDTO fromentity(datosEntity entity) {
 
         datosDTO dto = new datosDTO();
-
         dto.setIdMedicion(entity.getId_medicion());
-
         dto.setCo2(entity.getCo2());
-
         dto.setTemperatura(entity.getTemperatura());
-
         dto.setHumedad(entity.getHumedad());
-
         dto.setFechahora(entity.getFechahora()); 
-
         return dto;
-        
-    } 
+    }
+    //Dto de los promedios
+    public record resumenDTO(
+    long total,
+    Double co2Promedio, Double co2Max, Double co2Min,
+    Double tempPromedio, Double tempMax, Double tempMin,
+    Double humPromedio, Double humMax, Double humMin
+    ) {}
 
 } 
 
