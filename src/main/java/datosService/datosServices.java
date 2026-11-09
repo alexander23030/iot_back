@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import datosDTO.datosDTO; 
+import datosDTO.datosDTO;
+import datosDTO.datosDTO.resumenDTO;
 import datosRepository.datosRepository;
+import datosRepository.resumenInterface;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.Timestamp;
@@ -56,6 +58,16 @@ public class datosServices {
         Timestamp.valueOf(hasta)).stream().map(datosDTO::fromentity).collect(Collectors.toList());
     }
 
+    //promedio del periodo, máximo y mínimo de cada variable
+    public resumenDTO obtenerResumen(LocalDateTime desde, LocalDateTime hasta) {
+    resumenInterface r = dataRepo.resumen(Timestamp.valueOf(desde), Timestamp.valueOf(hasta));
+    return new resumenDTO(
+        r.getTotal(),
+        r.getCo2Promedio(), r.getCo2Max(), r.getCo2Min(),
+        r.getTempPromedio(), r.getTempMax(), r.getTempMin(),
+        r.getHumPromedio(), r.getHumMax(), r.getHumMin()
+    );
+    }
 
     @Transactional
     public datosDTO guardar(Integer co2, Float temperatura, Double humedad) {
@@ -70,6 +82,7 @@ public class datosServices {
         datosEntity guardada = dataRepo.save(medicion);
         return datosDTO.fromentity(guardada);
     }
+
 
 
 
