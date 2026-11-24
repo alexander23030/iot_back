@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor 
-@CrossOrigin (origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "http://iot-mqtt-noe2026.northcentralus.cloudapp.azure.com"
+    
+})
 @RestController 
 
 public class datosController {

@@ -24,6 +24,12 @@ private final JsonMapper jsonMapper;
     @Value("${mqtt.topic}")
     private String topic;
 
+    @Value("${mqtt.username}")
+    private String username;
+
+    @Value("${mqtt.password}")
+    private String password;
+
     private MqttClient client;
 
     @EventListener(ApplicationReadyEvent.class)
@@ -38,6 +44,9 @@ private final JsonMapper jsonMapper;
             MqttConnectOptions options = new MqttConnectOptions();
             options.setAutomaticReconnect(true);
             options.setCleanSession(true);
+
+            options.setUserName(username);
+            options.setPassword(password.toCharArray());
 
             client.connect(options);
             System.out.println("Conectado a MQTT. Escuchando: " + topic);
